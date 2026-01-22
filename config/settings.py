@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'users',
+    'study',
 ]
 
 MIDDLEWARE = [
@@ -87,6 +88,9 @@ DATABASES = {
         "PASSWORD": os.getenv('PASSWORD'),
         "HOST": os.getenv('HOST'),
         "PORT": os.getenv('PORT'),
+        'OPTIONS': {
+            'client_encoding': 'UTF8',
+        }
     }
 }
 
@@ -142,7 +146,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
-# LOGIN_REDIRECT_URL = 'catalog:home'
+LOGIN_REDIRECT_URL = 'study:home'
 LOGIN_URL = 'users:login'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
