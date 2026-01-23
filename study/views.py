@@ -10,8 +10,11 @@ class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     permission_classes = [permissions.AllowAny]
 
+class LessonListAPIView(generics.ListAPIView):
+    serializer_class = LessonSerializer
+    permission_classes = [permissions.AllowAny]
 
-class LessonListCreateAPIView(generics.ListCreateAPIView):
+class LessonCreateAPIView(generics.CreateAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     permission_classes = [permissions.AllowAny]
