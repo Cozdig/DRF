@@ -5,16 +5,19 @@ from django.template.defaultfilters import title
 # Create your models here.
 class Course(models.Model):
     title = models.CharField(max_length=100, verbose_name="название")
-    preview = models.ImageField(upload_to='course/', verbose_name="Превью")
+    preview = models.ImageField(upload_to="course/", verbose_name="Превью")
     description = models.TextField(verbose_name="описание")
 
     def __str__(self):
         return self.title
 
     class Meta:
-        verbose_name = 'курс'
-        verbose_name_plural = 'курсы'
-        ordering = ['title', ]
+        verbose_name = "курс"
+        verbose_name_plural = "курсы"
+        ordering = [
+            "title",
+        ]
+
 
 class Lesson(models.Model):
     title = models.CharField(max_length=100, verbose_name="название")
@@ -27,6 +30,6 @@ class Lesson(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = 'урок'
-        verbose_name_plural = 'уроки'
-        ordering = ['title']
+        verbose_name = "урок"
+        verbose_name_plural = "уроки"
+        ordering = ["title"]

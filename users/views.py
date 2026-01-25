@@ -5,13 +5,13 @@ from django.core.mail import send_mail
 from config import settings
 from .forms import CustomUserCreationForm
 
-
 # Create your views here.
 
+
 class RegisterView(CreateView):
-    template_name = 'users/register.html'
+    template_name = "users/register.html"
     form_class = CustomUserCreationForm
-    success_url = reverse_lazy('study:home')
+    success_url = reverse_lazy("study:home")
 
     def form_valid(self, form):
         user = form.save()
@@ -22,5 +22,7 @@ class RegisterView(CreateView):
         subject = "Добро пожаловать на наш сервис"
         message = "Спасибо за регистрацию"
         from_email = settings.DEFAULT_FROM_EMAIL
-        recipient_list = [user_email, ]
+        recipient_list = [
+            user_email,
+        ]
         send_mail(subject, message, from_email, recipient_list)
