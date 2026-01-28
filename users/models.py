@@ -13,9 +13,8 @@ class CustomUser(AbstractUser):
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     city = models.CharField(max_length=100, verbose_name="Город", null=True)
 
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = [
-    ]
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
     def __str__(self):
         return self.email
