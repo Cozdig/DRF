@@ -6,7 +6,7 @@ from study.models import Course, Lesson
 
 # Create your models here.
 class CustomUser(AbstractUser):
-    username = None
+    username = models.CharField(unique=True, verbose_name="имя пользователя")
 
     email = models.EmailField(unique=True)
     avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)

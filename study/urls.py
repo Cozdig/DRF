@@ -8,6 +8,7 @@ from study.views import (
     LessonUpdateAPIView,
     LessonDestroyAPIView,
     LessonListAPIView,
+    SubscribeAPIView
 )
 from users.apps import UsersConfig
 from rest_framework_simplejwt.views import (
@@ -30,6 +31,7 @@ urlpatterns = [
     path(
         "lessons/<int:pk>/delete/", LessonDestroyAPIView.as_view(), name="lesson_delete"
     ),
+    path('subscribe/', SubscribeAPIView.as_view(), name='subscribe'),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ] + router.urls
