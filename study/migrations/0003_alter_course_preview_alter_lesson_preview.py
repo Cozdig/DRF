@@ -13,15 +13,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="course",
             name="preview",
-            field=models.ImageField(
-                null=True, upload_to="course/", verbose_name="Превью"
-            ),
+            field=models.ImageField(null=True, upload_to="course/", verbose_name="Превью"),
         ),
         migrations.AlterField(
             model_name="lesson",
             name="preview",
-            field=models.ImageField(
-                null=True, upload_to="lesson/", verbose_name="превью"
-            ),
+            field=models.ImageField(null=True, upload_to="lesson/", verbose_name="превью"),
         ),
     ]

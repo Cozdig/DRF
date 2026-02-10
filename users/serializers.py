@@ -8,7 +8,8 @@ class PaymentsSerializer(serializers.ModelSerializer):
         model = Payments
         fields = "__all__"
 
+
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = '__all__'
+        fields = "__all__"

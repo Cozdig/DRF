@@ -32,11 +32,12 @@ class RegisterView(CreateView):
         ]
         send_mail(subject, message, from_email, recipient_list)
 
+
 class PaymentsListAPIView(generics.ListAPIView):
     queryset = Payments.objects.all()
     serializer_class = PaymentsSerializer
-    filter_backends = (DjangoFilterBackend, )
-    filterset_fields = ('payment_date', 'course', 'lesson', 'payment_method')
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ("payment_date", "course", "lesson", "payment_method")
 
 
 class CustomUserRetrieveAPIView(generics.RetrieveAPIView):

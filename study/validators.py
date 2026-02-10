@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+
 class LinkLessonValidator:
     def __call__(self, value):
         if "youtube" not in value:

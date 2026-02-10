@@ -1,6 +1,11 @@
 from django.urls import path
 from users.apps import UsersConfig
-from .views import RegisterView, CustomUserRetrieveAPIView, CustomUserUpdateAPIView, CustomUserDestroyAPIView
+from .views import (
+    RegisterView,
+    CustomUserRetrieveAPIView,
+    CustomUserUpdateAPIView,
+    CustomUserDestroyAPIView,
+)
 from django.contrib.auth.views import LoginView, LogoutView
 
 app_name = UsersConfig.name
@@ -11,5 +16,5 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(next_page="study:home"), name="logout"),
     path("profile/", CustomUserRetrieveAPIView.as_view(), name="profile"),
     path("profile/edit", CustomUserUpdateAPIView.as_view(), name="profile-edit"),
-    path("profile/delete", CustomUserDestroyAPIView.as_view(), name="profile-delete")
+    path("profile/delete", CustomUserDestroyAPIView.as_view(), name="profile-delete"),
 ]

@@ -22,16 +22,15 @@ class CourseViewSet(viewsets.ModelViewSet):
         serializer = CourseSerializer(paginated_queryset, many=True)
         return self.get_paginated_response(serializer.data)
 
-
     def perform_create(self, serializer):
         new_course = serializer.save()
         new_course.owner = self.request.user
         new_course.save()
 
     def get_permissions(self):
-        if self.action == 'create':
+        if self.action == "create":
             self.permission_classes = [permissions.IsAuthenticated]
-        elif self.action == 'list':
+        elif self.action == "list":
             self.permission_classes = [permissions.IsAuthenticated]
         elif self.action == "retrieve":
             self.permission_classes = [permissions.IsAuthenticated]
@@ -83,7 +82,7 @@ class SubscribeAPIView(APIView):
 
     def post(self, request):
         user = request.user
-        course_id = request.data.get('course_id')
+        course_id = request.data.get("course_id")
 
         course = get_object_or_404(Course, id=course_id)
 
@@ -91,9 +90,9 @@ class SubscribeAPIView(APIView):
 
         if subs_item.exists():
             subs_item.delete()
-            message = 'Подписка удалена'
+            message = "Подписка удалена"
             return Response({"message": message}, status=status.HTTP_200_OK)
         else:
             Subscribe.objects.create(user=user, course=course)
-            message = 'Подписка добавлена'
+            message = "Подписка добавлена"
             return Response({"message": message}, status=status.HTTP_201_CREATED)

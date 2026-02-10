@@ -1,9 +1,12 @@
 from rest_framework import serializers
 
 from .models import Course, Lesson, Subscribe
+from .validators import LinkLessonValidator
 
 
 class LessonSerializer(serializers.ModelSerializer):
+    link = serializers.CharField(validators=[LinkLessonValidator()])
+
     class Meta:
         model = Lesson
         fields = "__all__"
@@ -22,16 +25,14 @@ class CourseSerializer(serializers.ModelSerializer):
         return instance.lessons_set.count()
 
     def get_is_subscribed(self, obj):
-        request = self.context.get('request')
+        request = self.context.get("request")
         if request and request.user.is_authenticated:
-            return Subscribe.objects.filter(
-                user=request.user,
-                course=obj
-            ).exists()
+            return Subscribe.objects.filter(user=request.user, course=obj).exists()
         return False
+
 
 class SubscribeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscribe
         fields = "__all__"
-        read_only_fields = ['user', 'created_at']
+        read_only_fields = ["user", "created_at"]
