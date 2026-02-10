@@ -1,9 +1,14 @@
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from django.core.mail import send_mail
+from rest_framework import generics, permissions
+from django_filters.rest_framework import DjangoFilterBackend
 
 from config import settings
 from .forms import CustomUserCreationForm
+from .models import Payments, CustomUser
+from .serializers import PaymentsSerializer, CustomUserSerializer
+
 
 # Create your views here.
 
@@ -26,3 +31,28 @@ class RegisterView(CreateView):
             user_email,
         ]
         send_mail(subject, message, from_email, recipient_list)
+
+
+class PaymentsListAPIView(generics.ListAPIView):
+    queryset = Payments.objects.all()
+    serializer_class = PaymentsSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ("payment_date", "course", "lesson", "payment_method")
+
+
+class CustomUserRetrieveAPIView(generics.RetrieveAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class CustomUserUpdateAPIView(generics.UpdateAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class CustomUserDestroyAPIView(generics.DestroyAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
+    permission_classes = [permissions.IsAuthenticated]
