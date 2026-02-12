@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "users",
     "study",
     "django_filters",
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -153,7 +154,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "users.CustomUser"
 
 LOGIN_REDIRECT_URL = "study:home"
-LOGIN_URL = "users:login"
+LOGIN_URL = "user:login"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.yandex.ru"
@@ -163,3 +164,6 @@ EMAIL_USE_SSL = True
 EMAIL_HOST_USER = os.getenv("EMAIL")
 EMAIL_HOST_PASSWORD = os.getenv("WEB_PASSWORD")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+STRIPE_PUBLISH_KEY = os.getenv('STRIPE_PUBLISH_KEY')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')

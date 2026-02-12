@@ -1,3 +1,4 @@
+import stripe
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, generics, permissions, status
 from rest_framework.response import Response
@@ -7,9 +8,10 @@ from .models import Course, Lesson, Subscribe
 from .paginations import Pagination
 from .permissions import IsManager, IsOwner
 from .serializers import CourseSerializer, LessonSerializer
+from config.settings import STRIPE_SECRET_KEY
 
 # Create your views here.
-
+stripe.api_key = STRIPE_SECRET_KEY
 
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
@@ -96,3 +98,44 @@ class SubscribeAPIView(APIView):
             Subscribe.objects.create(user=user, course=course)
             message = "Подписка добавлена"
             return Response({"message": message}, status=status.HTTP_201_CREATED)
+
+
+class CreateStripeCourseView(APIView):
+    def post(self, request, course_id):
+        course = Course.objects.get(id=course_id)
+
+        product = stripe.Product.create(
+            name=course.title,
+            description=course.description,
+        )
+
+        price = stripe.Price.create(
+            product=product.id,
+            unit_amount=course.price * 100,
+            currency='rub'
+        )
+
+        return Response({'price_id': price.id, 'product_id': product.id})
+
+class CreateCheckoutSessionView(APIView):
+    def post(self, request):
+        price_id = request.data.get('price_id')
+        course_id = request.data.get('course_id')
+        course = Course.objects.get(id=course_id)
+
+        checkout_session = stripe.checkout.Session.create(
+            success_url='http://127.0.0.1:8000/success',
+            line_items=[
+                {
+                    'price': price_id,
+                    'quantity': 1,
+                },
+            ],
+            mode='payment',
+            metadata={
+                'course_id': course_id,
+                'user_id': request.user.id
+            }
+        )
+
+        return Response({'checkout_url': checkout_session.url})

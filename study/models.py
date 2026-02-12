@@ -10,6 +10,7 @@ class Course(models.Model):
     title = models.CharField(max_length=100, verbose_name="название")
     preview = models.ImageField(upload_to="course/", verbose_name="Превью", null=True)
     description = models.TextField(verbose_name="описание")
+    price = models.IntegerField(default=0, verbose_name="цена")
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         blank=True,
