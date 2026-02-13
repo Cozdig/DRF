@@ -41,8 +41,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework_simplejwt",
     "users",
     "study",
+    "django_filters",
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -76,8 +79,10 @@ REST_FRAMEWORK = {
     # Use Django's standard 'django.contrib.auth' permissions,
     # or allow read-only access for unauthenticated users.
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
-    ]
+        "rest_framework.permissions.AllowAny",
+    ],
+    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
+    "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
 }
 
 
@@ -149,7 +154,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "users.CustomUser"
 
 LOGIN_REDIRECT_URL = "study:home"
-LOGIN_URL = "users:login"
+LOGIN_URL = "user:login"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.yandex.ru"
@@ -159,3 +164,6 @@ EMAIL_USE_SSL = True
 EMAIL_HOST_USER = os.getenv("EMAIL")
 EMAIL_HOST_PASSWORD = os.getenv("WEB_PASSWORD")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+STRIPE_PUBLISH_KEY = os.getenv('STRIPE_PUBLISH_KEY')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
