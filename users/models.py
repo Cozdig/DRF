@@ -31,11 +31,31 @@ class Payments(models.Model):
     payment_date = models.DateTimeField(auto_now_add=True, verbose_name="дата оплаты")
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="payments", null=True)
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name="payments", null=True)
+    amount = models.IntegerField(default=0, verbose_name="цена")
     payment_method = models.CharField(
         max_length=4,
         choices=PAYMENT_METHOD_CHOICES,
         null=False,
         verbose_name="способ оплаты",
+    )
+
+    stripe_session_id = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="ID сессии"
+    )
+    checkout_url = models.URLField(
+        max_length=500,
+        blank=True,
+        null=True,
+        verbose_name="ссылка на оплату"
+    )
+    stripe_payment_id = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="payment ID"
     )
 
     def __str__(self):
