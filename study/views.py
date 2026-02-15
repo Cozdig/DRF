@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from .tasks import send_course_update_email
 
 from users.models import Payments
 from .models import Course, Lesson, Subscribe
@@ -43,6 +44,10 @@ class CourseViewSet(viewsets.ModelViewSet):
             self.permission_classes = [IsOwner]
         return [permission() for permission in self.permission_classes]
 
+    def perform_update(self, serializer):
+        course = serializer.save()
+
+        send_course_update_email.delay(course.id)
 
 class LessonListAPIView(generics.ListAPIView):
     queryset = Lesson.objects.all()
