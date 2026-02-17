@@ -176,6 +176,12 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_ENABLE_UTC = False
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+CELERY_BEAT_SCHEDULE = {
+    'deactivate_inactive_users': {
+        'task': 'study.tasks.deactivate_inactive_users',
+        'schedule': crontab(hour=3, minute=0),
+    },
+}
 
 CACHES = {
     'default': {
