@@ -68,8 +68,8 @@ jobs:
       - name: Deploy to Server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}
-            docker rm -f myapp 2>/dev/null || true
-            docker run -d --name myapp -p 80:8000 -e SECRET_KEY=${{ secrets.SECRET_KEY }} -e DEBUG=False -e ALLOWED_HOSTS=${{ secrets.SERVER_IP }},localhost,127.0.0.1 ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}
-            docker ps | grep myapp
+          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}
+          docker rm -f myapp 2>/dev/null || true
+          docker run -d --name myapp -p 80:8000 -e SECRET_KEY=${{ secrets.SECRET_KEY }} -e DEBUG=False -e ALLOWED_HOSTS=${{ secrets.SERVER_IP }},localhost,127.0.0.1 ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}
+          docker ps | grep myapp
           EOF
