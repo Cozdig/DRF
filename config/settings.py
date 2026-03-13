@@ -96,9 +96,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-USE_SQLITE = os.environ.get('USE_SQLITE', 'False') == 'True'
-
-if USE_SQLITE or 'test' in sys.argv:
+if 'test' in sys.argv or os.environ.get('GITHUB_ACTIONS') == 'true' or os.environ.get('USE_SQLITE') == 'True':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
