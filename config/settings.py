@@ -96,10 +96,9 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-IN_GITHUB_ACTIONS = os.environ.get('GITHUB_ACTIONS') == 'true'
+USE_SQLITE = os.environ.get('USE_SQLITE', 'False') == 'True'
 
-if 'test' in sys.argv or IN_GITHUB_ACTIONS:
-    # В тестах и в GitHub Actions используем SQLite
+if USE_SQLITE or 'test' in sys.argv:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
