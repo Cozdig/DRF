@@ -31,7 +31,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
 
 
 # Application definition
@@ -201,11 +201,3 @@ CACHES = {
         'LOCATION': 'redis://127.0.0.1:6379/1',
     }
 }
-
-if 'test' in sys.argv:
-    DATABASES = {
-         "default": {
-            "ENGINE": 'django.db.backends.sqlite3',
-            "NAME": BASE_DIR / 'test_db.sqlite3',
-        }
-    }
