@@ -69,9 +69,12 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}
-            CONTAINER_ID=$(docker ps -aq -f name=myapp)
-            if [ -n "$CONTAINER_ID" ]; then
-              docker rm -f $CONTAINER_ID
+            
+            if docker ps -a --format '{{.Names}}' | grep -q '^myapp$'; then
+              docker rm -f myapp
             fi
+            
             docker run -d --name myapp -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}
+            
+            docker ps | grep myapp
           EOF
