@@ -1,0 +1,25 @@
+{% extends 'study/base.html' %}
+
+{% block title %}Курсы{% endblock %}
+
+{% block content %}
+    <div class="row text-center">
+        {% for course in courses %}
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ course.title }}</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        <li>{{ course.description|truncatechars:100 }}</li>
+                        <li><img src="{{ course.image.url }}" alt="{{ course.title }}" height="150" width="150"></li>
+
+                    </ul>
+                    <a type="button" class="btn btn-lg btn-block btn-outline-primary" href="{% url 'study:course_info' course.pk %}">Открыть</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
