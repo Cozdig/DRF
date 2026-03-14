@@ -92,3 +92,54 @@ docker stats
 ```bash
 docker-compose down -v
 ```
+
+## Подготовка удаленного сервера
+1. Создайте виртуальную машину на сервере(например Yandex Cloud)
+2. Создайте ssh-ключ
+3. Вставьте ssh-ключ в виртуальную машину 
+4. Заполните все Git secrets(DOCKER_HUB_USERNAME, DOCKER_HUB_ACCESS_TOKEN, SSH_KEY, SSH_USER, SERVER_IP, SECRET_KEY(ключ django))
+
+### Подключитесь к серверу через команду (в командной строке)
+```bash
+ssh -l (SSH_USER) (SERVER_IP)
+```
+
+### Обновите пакеты (в командной строке)
+```bash
+sudo apt update && sudo apt upgrade -y
+```
+
+### Установите докер (в командной строке)
+```bash
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo usermod -aG docker $USER
+newgrp docker
+```
+
+## Запуск workflow
+
+1. Сделайте коммит в ветку и запушьте
+2. Git actions автоматически запустит workflow
+
+## Проверка деплоя
+
+### Подключитесь к серверу (в командной строке)
+```bash
+ssh -l (YOUR_SSH_USER) (YOUR_SERVER_IP)
+```
+
+### Проверьте запущенные контейнеры (в командной строке)
+```bash
+docker ps
+```
+
+### Проверьте логи (в командной строке)
+```bash
+docker logs myapp
+```
+
+### Проверьте доступность сайта (в командной строке)
+```bash
+curl http://localhost:80
+```
